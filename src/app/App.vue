@@ -6,7 +6,13 @@ import { PantryPanel } from "../features/pantry";
 import { KitchenPanel } from "../features/kitchen";
 import { ServicePanel } from "../features/service";
 import { LedgerPanel, ResultOverlay, totals } from "../features/ledger";
+import { SandboxPanel, useSandbox } from "../features/sandbox";
 const { game, toggle, restart } = useSession();
+const sandbox = useSandbox(game);
+function restartAll() {
+  sandbox.reset();
+  restart();
+}
 </script>
 <template>
   <div class="app-shell">
@@ -30,7 +36,7 @@ const { game, toggle, restart } = useSession();
           ><span>{{
             game.running ? "正在营业" : game.ended ? "今日打烊" : "准备开门"
           }}</span
-          ><button class="outline" @click="restart">重新开局</button>
+          ><button class="outline" @click="restartAll">重新开局</button>
         </div>
       </header>
       <div class="hero">
@@ -80,6 +86,7 @@ const { game, toggle, restart } = useSession();
         </div>
       </div>
       <OrdersPanel :game="game" @command="(c) => dispatch(game, c)" />
+      <SandboxPanel v-if="!game.ended" :game="game" />
       <div class="workspace">
         <PantryPanel
           :game="game"
@@ -99,6 +106,6 @@ const { game, toggle, restart } = useSession();
         >
       </footer>
     </main>
-    <ResultOverlay :game="game" @restart="restart" />
+    <ResultOverlay :game="game" @restart="restartAll" />
   </div>
 </template>

@@ -7,6 +7,7 @@
     "dev": "vite --host 0.0.0.0",
     "typecheck": "vue-tsc --noEmit",
     "build": "vite build",
+    "sandbox:check": "esbuild scripts/sandbox-check.ts --bundle --platform=node --format=esm --outfile=node_modules/.cache/sb-check.mjs && node node_modules/.cache/sb-check.mjs",
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
